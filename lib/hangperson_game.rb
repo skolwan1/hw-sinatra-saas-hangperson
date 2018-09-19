@@ -8,22 +8,19 @@ class HangpersonGame
   # def initialize()
   # end
   
-  attr_accessor :word, :guesses, :wrong_guesses
-  
   def initialize(word)
     @word = word
     @guesses = ''
     @wrong_guesses = ''
   end
   
+  attr_accessor :word, :guesses, :wrong_guesses
+  
   def guess (character)
-    if character == nil
-      raise ArgumentError.new("No nil.")
-    elsif character.length == 0
-      raise ArgumentError.new("No empty character.")
-    elsif character !~ /[[:alpha:]]/
-      raise ArgumentError.new("No special characters.")
-    end
+    
+    raise(ArgumentError) if character.empty?
+    raise(ArgumentError) if character.match(/[^A-za-z]/i)
+    raise(ArgumentError) if character.nil?
     
     character = character.downcase
     
@@ -45,15 +42,15 @@ class HangpersonGame
   end
 
 def word_with_guesses
-  output =''
+  output_string =''
   @word.split("").each do |char|
     if @guesses.include? char
-      output += char
+      output_string += char
     else
-      output += '-'
+      output_string += '-'
     end
   end
-  return output
+  return output_string
 end  
 
 def check_win_or_lose
